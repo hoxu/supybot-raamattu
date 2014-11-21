@@ -34,18 +34,22 @@ import supybot.plugins as plugins
 import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
 
+import uskonkirjat
 
 class Raamattu(callbacks.Plugin):
     """Add the help for "@plugin help Raamattu" here
     This should describe *how* to use this plugin."""
     threaded = True
 
-    def r(self, irc, msg, args, verse):
+    def r(self, irc, msg, args, words):
         """<jae|jakeet>
 
         Hae raamatunjakeita. Esim. "r Matt 7:7"
         """
-        irc.reply(str("ping"))
+        verse = ' '.join(words)
+        irc.reply(verse)
+        for verse in uskonkirjat.get_verse(verse):
+            irc.reply(str(verse))
     r = wrap(r, [many('anything')])
 
 

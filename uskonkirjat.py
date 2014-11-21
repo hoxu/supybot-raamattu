@@ -26,42 +26,27 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-###
+from bs4 import BeautifulSoup
+import urllib2
+from contextlib import closing
 
-"""
-Add a description of the plugin (to be presented to the user inside the wizard)
-here.  This should describe *what* the plugin does.
-"""
+baseurl = 'http://raamattu.uskonkirjat.net/servlet/biblesite.Bible'
 
-import supybot
-import supybot.world as world
+def get_verse(verse):
+    full_url = baseurl + '?ref=' + urllib2.quote(verse)
+    with closing(urllib2.urlopen(full_url)) as f:
+        html_doc = f.read()
+        soup = BeautifulSoup(html_doc)
 
-# Use this for the version of this plugin.  You may wish to put a CVS keyword
-# in here if you're keeping the plugin in CVS or some similar system.
-__version__ = ""
+        result = []
+        for i in soup.find_all('div', 'text'):
+            result.append(i.text.encode('utf-8'))
+        return result
 
-__author__ = supybot.Author('Heikki Hokkanen', 'hoxu', 'hoxu@users.sf.net')
+if __name__ == '__main__':
+    import sys
+    verse = ' '.join(sys.argv[1:])
+    print 'Getting verse:', verse
+    print get_verse(verse)
 
-# This is a dictionary mapping supybot.Author instances to lists of
-# contributions.
-__contributors__ = {}
-
-# This is a url where the most recent plugin package can be downloaded.
-__url__ = '' # 'http://supybot.com/Members/yourname/Raamattu/download'
-
-import config
-import plugin
-reload(plugin) # In case we're being reloaded.
-# Add more reloads here if you add third-party modules and want them to be
-# reloaded when this plugin is reloaded.  Don't forget to import them as well!
-import uskonkirjat
-reload(uskonkirjat)
-
-if world.testing:
-    import test
-
-Class = plugin.Class
-configure = config.configure
-
-
-# vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:
+# vim:set shiftwidth=4 softtabstop=4 expandtab textwidth=79:
