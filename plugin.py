@@ -41,6 +41,18 @@ class Raamattu(callbacks.Plugin):
     This should describe *how* to use this plugin."""
     threaded = True
 
+    def hae(self, irc, msg, args, words):
+        """<hakusana>
+
+        Hae raamatunjakeita. Esim. "hae luulottele"
+        """
+        text = ' '.join(words)
+        results = uskonkirjat.search(text)
+        irc.reply('Tuloksia: %d' % len(results))
+        for verse in results[:5]:
+            irc.reply(str(verse))
+    hae = wrap(hae, [many('anything')])
+
     def r(self, irc, msg, args, words):
         """<jae|jakeet>
 

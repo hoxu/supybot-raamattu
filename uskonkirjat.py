@@ -34,13 +34,21 @@ baseurl = 'http://raamattu.uskonkirjat.net/servlet/biblesite.Bible'
 
 def get_verse(verse):
     full_url = baseurl + '?ref=' + urllib2.quote(verse)
+    return parse_results(full_url)
+
+def search(text):
+    full_url = baseurl + '?search=' + urllib2.quote(text)
+    return parse_results(full_url)
+
+def parse_results(full_url):
     with closing(urllib2.urlopen(full_url)) as f:
         html_doc = f.read()
         soup = BeautifulSoup(html_doc)
 
         result = []
         for i in soup.find_all('div', 'text'):
-            result.append(i.text.encode('utf-8'))
+            tr = i.parent.parent
+            result.append(tr.text.encode('utf-8'))
         return result
 
 if __name__ == '__main__':
@@ -48,5 +56,8 @@ if __name__ == '__main__':
     verse = ' '.join(sys.argv[1:])
     print 'Getting verse:', verse
     print get_verse(verse)
+
+    print 'Search test'
+    print search('luulottele')
 
 # vim:set shiftwidth=4 softtabstop=4 expandtab textwidth=79:

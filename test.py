@@ -33,6 +33,9 @@ from supybot.test import *
 class RaamattuTestCase(PluginTestCase):
     plugins = ('Raamattu',)
 
+    def testHae(self):
+        self.assertNotError('hae luulottele')
+
     def testR(self):
         self.assertNotError('r Matt 7:7')
 
