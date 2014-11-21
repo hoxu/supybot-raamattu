@@ -47,7 +47,7 @@ __author__ = supybot.Author('Heikki Hokkanen', 'hoxu', 'hoxu@users.sf.net')
 __contributors__ = {}
 
 # This is a url where the most recent plugin package can be downloaded.
-__url__ = '' # 'http://supybot.com/Members/yourname/Raamattu/download'
+__url__ = 'https://github.com/hoxu/supybot-raamattu'
 
 import config
 import plugin
