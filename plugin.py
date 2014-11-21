@@ -47,7 +47,6 @@ class Raamattu(callbacks.Plugin):
         Hae raamatunjakeita. Esim. "r Matt 7:7"
         """
         verse = ' '.join(words)
-        irc.reply(verse)
         for verse in uskonkirjat.get_verse(verse):
             irc.reply(str(verse))
     r = wrap(r, [many('anything')])
