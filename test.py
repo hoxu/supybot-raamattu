@@ -33,5 +33,8 @@ from supybot.test import *
 class RaamattuTestCase(PluginTestCase):
     plugins = ('Raamattu',)
 
+    def testR(self):
+        self.assertNotError('r Matt 7:7')
+
 
 # vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:

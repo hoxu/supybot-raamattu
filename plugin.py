@@ -40,6 +40,14 @@ class Raamattu(callbacks.Plugin):
     This should describe *how* to use this plugin."""
     threaded = True
 
+    def r(self, irc, msg, args, verse):
+        """<jae|jakeet>
+
+        Hae raamatunjakeita. Esim. "r Matt 7:7"
+        """
+        irc.reply(str("ping"))
+    r = wrap(r, [many('anything')])
+
 
 Class = Raamattu
 
